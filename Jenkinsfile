@@ -50,7 +50,7 @@ pipeline {
                 if (buildStatus == 'FAILURE') {
                     errorMessage = currentBuild.rawBuild.getLog(1000).join('\n')
                     if (errorMessage.length() > 1000) {
-                        errorMessage is errorMessage.take(1000) + "... [mensaje truncado]"
+                        errorMessage = errorMessage.take(1000) + "... [mensaje truncado]"
                     }
                 }
                 
