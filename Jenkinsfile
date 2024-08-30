@@ -1,11 +1,9 @@
 pipeline {
     agent any
-
     environment {
         SLACK_CHANNEL = '#appdevops'
-        JMETER_HOME = "/opt/jmeter" // Ruta a JMeter
+        JMETER_HOME = "/opt/jmeter"
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -18,27 +16,27 @@ pipeline {
                 }
             }
         }
-
         stage('Run JMeter Tests') {
             steps {
                 script {
-                    // Eliminar el directorio 'informe_html' si existe
-                    sh "rm -rf ${env.WORKSPACE}/informe_html"
+                    // Limpiar archivos de resultados anteriores
+                    sh "rm -rf ${env.WORKSPACE}/informe_html ${env.WORKSPACE}/results.jtl"
                     // Ejecutar las pruebas de JMeter
                     sh "${env.JMETER_HOME}/bin/jmeter -n -t ${env.WORKSPACE}/flask_app_test_json.jmx -l ${env.WORKSPACE}/results.jtl -e -o ${env.WORKSPACE}/informe_html"
                 }
             }
         }
-
-
         stage('Publish Performance Report') {
             steps {
-                // Asegúrate de que el plugin de Performance esté instalado y configurado
-                performanceReport sourceDataFiles: '**/results.jtl', parsers: [[$class: 'JMeterParser']]
+                perfReport sourceDataFiles: '**/results.jtl', 
+                           compareBuildPrevious: true,
+                           modePerformancePerTestCase: true, 
+                           modeOfThreshold: true,
+                           failBuildIfNoResultFile: true,
+                           modeThroughput: true
             }
         }
     }
-
     post {
         always {
             script {
@@ -53,13 +51,9 @@ pipeline {
                 def errorMessage = ""
                 
                 if (buildStatus == 'FAILURE') {
-                    errorMessage = currentBuild.rawBuild.getLog(1000).join('\n')
-                    if (errorMessage.length() > 1000) {
-                        errorMessage = errorMessage.take(1000) + "... [mensaje truncado]"
-                    }
+                    errorMessage = currentBuild.description ?: "No se pudo obtener el detalle del error."
                 }
                 
-                echo 'Enviando notificación a Slack'
                 slackSend(
                     channel: env.SLACK_CHANNEL,
                     color: COLOR_MAP[buildStatus],
