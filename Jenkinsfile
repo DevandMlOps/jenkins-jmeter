@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         SLACK_CHANNEL = '#appdevops'
         JMETER_HOME = "/opt/jmeter" // Ruta a JMeter
@@ -29,6 +29,7 @@ pipeline {
 
         stage('Publish Performance Report') {
             steps {
+                // Asegúrate de que el plugin de Performance esté instalado y configurado
                 performanceReport sourceDataFiles: '**/results.jtl', parsers: [[$class: 'JMeterParser']]
             }
         }
