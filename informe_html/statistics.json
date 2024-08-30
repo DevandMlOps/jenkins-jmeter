@@ -1,0 +1,34 @@
+{
+  "POST to Flask App" : {
+    "transaction" : "POST to Flask App",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 288.0080000000003,
+    "medianResTime" : 180.0,
+    "minResTime" : 155.0,
+    "maxResTime" : 16062.0,
+    "pct1ResTime" : 299.39999999999986,
+    "pct2ResTime" : 342.0,
+    "pct3ResTime" : 7441.660000000058,
+    "throughput" : 20.93933873568273,
+    "receivedKBytesPerSec" : 4.9076575161756395,
+    "sentKBytesPerSec" : 10.122043627112257
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 288.0080000000003,
+    "medianResTime" : 180.0,
+    "minResTime" : 155.0,
+    "maxResTime" : 16062.0,
+    "pct1ResTime" : 299.39999999999986,
+    "pct2ResTime" : 342.0,
+    "pct3ResTime" : 7441.660000000058,
+    "throughput" : 20.93933873568273,
+    "receivedKBytesPerSec" : 4.9076575161756395,
+    "sentKBytesPerSec" : 10.122043627112257
+  }
+}
