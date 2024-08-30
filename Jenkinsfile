@@ -22,10 +22,14 @@ pipeline {
         stage('Run JMeter Tests') {
             steps {
                 script {
+                    // Eliminar el directorio 'informe_html' si existe
+                    sh "rm -rf ${env.WORKSPACE}/informe_html"
+                    // Ejecutar las pruebas de JMeter
                     sh "${env.JMETER_HOME}/bin/jmeter -n -t ${env.WORKSPACE}/flask_app_test_json.jmx -l ${env.WORKSPACE}/results.jtl -e -o ${env.WORKSPACE}/informe_html"
                 }
             }
         }
+
 
         stage('Publish Performance Report') {
             steps {
