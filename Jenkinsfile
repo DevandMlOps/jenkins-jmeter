@@ -29,7 +29,7 @@ pipeline {
 
         stage('Publish Performance Report') {
             steps {
-                performanceReport parsers: [[$class: 'JMeterParser', glob: '**/results.jtl']]
+                performanceReport sourceDataFiles: '**/results.jtl', parsers: [[$class: 'JMeterParser']]
             }
         }
     }
